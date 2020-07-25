@@ -8,11 +8,12 @@ namespace ChessGameProject.gameBoard
         public int NumberOfMovements { get; protected set; }
         public GameBoard GameBoard { get; set; }
 
-        public Piece(Position position, Color color, GameBoard gameBoard)
+        public Piece(GameBoard gameBoard, Color color)
         {
-            Position = position;
+            Position = null;
             Color = color;
             GameBoard = gameBoard;
+            NumberOfMovements = 0;
         }
     }
 }

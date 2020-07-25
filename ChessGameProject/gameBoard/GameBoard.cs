@@ -22,5 +22,11 @@ namespace ChessGameProject.gameBoard
         {
             return pieces[r, c];
         }
+
+        public void PutPiece(Piece piece, Position position)
+        {
+            pieces[position.Row, position.Column] = piece;
+            piece.Position = position;
+        }
     }
 }
