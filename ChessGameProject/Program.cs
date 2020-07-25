@@ -11,6 +11,7 @@ namespace ChessGameProject
             Console.WriteLine(p);
 
             GameBoard board = new GameBoard(8, 8);
+            Screen.PrintGameBoard(board);
         }
     }
 }

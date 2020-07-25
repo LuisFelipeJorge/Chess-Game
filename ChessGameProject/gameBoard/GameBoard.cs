@@ -17,5 +17,10 @@ namespace ChessGameProject.gameBoard
             NumberOfColumns = numberOfColumns;
             pieces = new Piece[NumberOfRows, NumberOfColumns];
         }
+
+        public Piece Piece(int r, int c)
+        {
+            return pieces[r, c];
+        }
     }
 }
