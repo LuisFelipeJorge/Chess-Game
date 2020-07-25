@@ -9,6 +9,8 @@ namespace ChessGameProject
         {
             Position p = new Position(3, 4);
             Console.WriteLine(p);
+
+            GameBoard board = new GameBoard(8, 8);
         }
     }
 }
