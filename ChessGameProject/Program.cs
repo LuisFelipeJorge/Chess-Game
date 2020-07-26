@@ -8,16 +8,24 @@ namespace ChessGameProject
     {
         static void Main(string[] args)
         {
-            Position p = new Position(3, 4);
-            Console.WriteLine(p);
+            try
+            {
+                Position p = new Position(3, 4);
+                Console.WriteLine(p);
 
-            GameBoard board = new GameBoard(8, 8);
-            board.PutPiece(new King(board, Color.Black), new Position(1, 1));
-            board.PutPiece(new Rook(board, Color.Black), new Position(0, 0));
-            board.PutPiece(new Rook(board, Color.Black), new Position(2, 4));
+                GameBoard board = new GameBoard(8, 8);
+                board.PutPiece(new King(board, Color.Black), new Position(1, 1));
+                board.PutPiece(new Rook(board, Color.Black), new Position(0, 0));
+                board.PutPiece(new Rook(board, Color.Black), new Position(0, 2));
 
 
-            Screen.PrintGameBoard(board);
+                Screen.PrintGameBoard(board);
+            }
+            catch (GameBoardExceptions e)
+            {
+                Console.WriteLine(e.Message);
+            }
+            
         }
     }
 }
