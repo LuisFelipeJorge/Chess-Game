@@ -1,12 +1,12 @@
 ﻿
 namespace ChessGameProject.gameBoard
 {
-    class Piece
+    abstract class Piece
     {
         public Position Position { get; set; }
-        public Color Color  { get; set; }
+        public Color Color  { get; protected set; }
         public int NumberOfMovements { get; protected set; }
-        public GameBoard GameBoard { get; set; }
+        public GameBoard GameBoard { get; protected set; }
 
         public Piece(GameBoard gameBoard, Color color)
         {
@@ -20,5 +20,7 @@ namespace ChessGameProject.gameBoard
         {
             NumberOfMovements += 1;
         }
+
+        public abstract bool[,] PossibleMovements();
     }
 }

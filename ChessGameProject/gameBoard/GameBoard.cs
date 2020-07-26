@@ -58,14 +58,11 @@ namespace ChessGameProject.gameBoard
 
         public bool IsPositionValid(Position position)
         {
-            if (position.Row < 0 || position.Row >= NumberOfRows || position.Column < 0 || position.Column >= NumberOfColumns)
+            if ((position.Row < 0) || (position.Row >= NumberOfRows) || (position.Column < 0) || (position.Column >= NumberOfColumns))
             {
                 return false;
             }
-            else
-            {
-                return true;
-            }
+            return true;
         }
 
         public void TovalidatePosition(Position position)
