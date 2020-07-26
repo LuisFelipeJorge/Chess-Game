@@ -38,6 +38,18 @@ namespace ChessGameProject.gameBoard
             piece.Position = position;
         }
 
+        public Piece RemovePiece(Position position)
+        {
+            if (Piece(position) == null)
+            {
+                return null;
+            }
+            Piece aux = Piece(position);
+            aux.Position = null;
+            pieces[position.Row, position.Column] = null;
+            return aux;
+        }
+
         public bool ExistsPiece(Position position)
         {
             TovalidatePosition(position);

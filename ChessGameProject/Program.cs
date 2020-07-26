@@ -1,6 +1,7 @@
 ﻿using ChessGameProject.chessGame;
 using ChessGameProject.gameBoard;
 using System;
+using System.Security.Cryptography;
 
 namespace ChessGameProject
 {
@@ -10,18 +11,23 @@ namespace ChessGameProject
         {
             try
             {
-                Position p = new Position(3, 4);
-                Console.WriteLine(p);
+                ChessMatch match = new ChessMatch();
 
-                GameBoard board = new GameBoard(8, 8);
-                board.PutPiece(new King(board, Color.Black), new Position(1, 1));
-                board.PutPiece(new Rook(board, Color.Black), new Position(0, 0));
-                board.PutPiece(new Rook(board, Color.Black), new Position(0, 2));
+                while (!match.MatchEnded)
+                {
+                    Console.Clear();
+                    Screen.PrintGameBoard(match.GameBoard);
 
-                board.PutPiece(new King(board, Color.White), new Position(1, 2));
-                board.PutPiece(new King(board, Color.White), new Position(2, 2));
+                    Console.WriteLine();
+                    Console.Write("Origin: ");
+                    Position origin = Screen.ReadPosition().ToPosition();
+                    Console.Write("Destiny: ");
+                    Position destiny = Screen.ReadPosition().ToPosition();
 
-                Screen.PrintGameBoard(board);
+                    match.DoMovement(origin, destiny);
+
+                }
+
             }
             catch (GameBoardExceptions e)
             {

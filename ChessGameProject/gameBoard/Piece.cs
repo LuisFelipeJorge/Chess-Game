@@ -15,5 +15,10 @@ namespace ChessGameProject.gameBoard
             GameBoard = gameBoard;
             NumberOfMovements = 0;
         }
+
+        public void IncreaseNumberOfMovements()
+        {
+            NumberOfMovements += 1;
+        }
     }
 }
