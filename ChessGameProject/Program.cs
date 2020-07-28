@@ -19,10 +19,7 @@ namespace ChessGameProject
                     try
                     {
                         Console.Clear();
-                        Screen.PrintGameBoard(match.GameBoard);
-                        Console.WriteLine();
-                        Console.WriteLine("Turn: " + match.Turn);
-                        Console.WriteLine("Waiting for movement: " + match.CurrentPlayer);
+                        Screen.PrintMacth(match);
 
                         Console.WriteLine();
                         Console.Write("Origin: ");

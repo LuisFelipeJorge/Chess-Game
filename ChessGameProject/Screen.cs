@@ -2,6 +2,7 @@
 using ChessGameProject.chessGame;
 using ChessGameProject.gameBoard;
 using System;
+using System.Collections.Generic;
 
 namespace ChessGameProject
 {
@@ -80,6 +81,40 @@ namespace ChessGameProject
             char column = s[0];
             int row = int.Parse(s[1] + "");
             return new ChessPosition(column, row);
+        }
+
+        public static void DisplaySet(HashSet<Piece> pieces)
+        {
+            Console.Write("{");
+            foreach (Piece p in pieces)
+            {
+                Console.Write(p + " ");
+            }
+            Console.WriteLine(" }");
+        }
+
+        public static void PrintCapturedPieces(ChessMatch match)
+        {
+            Console.WriteLine("Captured Pieces:");
+            Console.Write("Whites: ");
+            DisplaySet(match.CapturedPieces(Color.White));
+            Console.WriteLine();
+            Console.Write("Blacks: ");
+            ConsoleColor aux = Console.ForegroundColor;
+            Console.ForegroundColor = ConsoleColor.Yellow;
+            DisplaySet(match.CapturedPieces(Color.Black));
+            Console.ForegroundColor = aux;  
+            Console.WriteLine();
+        }
+
+        public static void PrintMacth(ChessMatch match)
+        {
+            PrintGameBoard(match.GameBoard);
+            Console.WriteLine();
+            PrintCapturedPieces(match);
+            Console.WriteLine();
+            Console.WriteLine("Turn: " + match.Turn);
+            Console.WriteLine("Waiting for movement: " + match.CurrentPlayer);
         }
     }
 }
