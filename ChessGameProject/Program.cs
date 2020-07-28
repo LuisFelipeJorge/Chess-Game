@@ -2,6 +2,7 @@
 using ChessGameProject.gameBoard;
 using System;
 using System.Security.Cryptography;
+using System.Xml;
 
 namespace ChessGameProject
 {
@@ -15,25 +16,37 @@ namespace ChessGameProject
 
                 while (!match.MatchEnded)
                 {
-                    Console.Clear();
-                    Screen.PrintGameBoard(match.GameBoard);
+                    try
+                    {
+                        Console.Clear();
+                        Screen.PrintGameBoard(match.GameBoard);
+                        Console.WriteLine();
+                        Console.WriteLine("Turn: " + match.Turn);
+                        Console.WriteLine("Waiting for movement: " + match.CurrentPlayer);
 
-                    Console.WriteLine();
-                    Console.Write("Origin: ");
-                    Position origin = Screen.ReadPosition().ToPosition();
+                        Console.WriteLine();
+                        Console.Write("Origin: ");
+                        Position origin = Screen.ReadPosition().ToPosition();
+                        match.ValidateOriginPosition(origin);
 
-                    bool[,] possiblePositions = match.GameBoard.Piece(origin).PossibleMovements();
+                        bool[,] possiblePositions = match.GameBoard.Piece(origin).PossibleMovements();
 
-                    Console.Clear();
-                    Screen.PrintGameBoard(match.GameBoard, possiblePositions);
+                        Console.Clear();
+                        Screen.PrintGameBoard(match.GameBoard, possiblePositions);
 
-                    Console.Write("Destiny: ");
-                    Position destiny = Screen.ReadPosition().ToPosition();
+                        Console.WriteLine();
+                        Console.Write("Destiny: ");
+                        Position destiny = Screen.ReadPosition().ToPosition();
+                        match.ValidateDestinyPosition(origin, destiny);
 
-                    match.DoMovement(origin, destiny);
-
+                        match.PerformMovement(origin, destiny);
+                    }
+                    catch (GameBoardExceptions e)
+                    {
+                        Console.WriteLine(e.Message);
+                        Console.ReadLine();
+                    }
                 }
-
             }
             catch (GameBoardExceptions e)
             {

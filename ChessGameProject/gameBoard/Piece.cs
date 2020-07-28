@@ -22,5 +22,26 @@ namespace ChessGameProject.gameBoard
         }
 
         public abstract bool[,] PossibleMovements();
+
+        public bool PossibleMovementsExists()
+        {
+            bool[,] matrix = PossibleMovements();
+            for (int i = 0; i < GameBoard.NumberOfRows; i++)
+            {
+                for (int j = 0; j < GameBoard.NumberOfColumns; j++)
+                {
+                    if (matrix[i, j])
+                    {
+                        return true;
+                    }
+                }
+            }
+            return false;
+        }
+
+        public bool CanMoveTo(Position position)
+        {
+            return PossibleMovements()[position.Row, position.Column];
+        }
     }
 }

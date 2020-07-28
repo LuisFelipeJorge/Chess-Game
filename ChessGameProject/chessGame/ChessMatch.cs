@@ -6,8 +6,8 @@ namespace ChessGameProject.chessGame
     class ChessMatch
     {
         public GameBoard GameBoard { get; private set; }
-        private int Turn;
-        private Color CurrentPlayer;
+        public int Turn { get; private set; }
+        public Color CurrentPlayer { get; private set; }
         public bool MatchEnded { get; private set; }
 
         public ChessMatch()
@@ -25,6 +25,48 @@ namespace ChessGameProject.chessGame
             piece.IncreaseNumberOfMovements();
             Piece captured = GameBoard.RemovePiece(destiny);
             GameBoard.PutPiece(piece, destiny);
+        }
+
+        private void ChangePlayer()
+        {
+            if (CurrentPlayer == Color.White)
+            {
+                CurrentPlayer = Color.Black;
+            }
+            else
+            {
+                CurrentPlayer = Color.White;
+            }
+        }
+        public void PerformMovement(Position origin, Position destiny)
+        {
+            DoMovement(origin, destiny);
+            Turn++;
+            ChangePlayer();
+        }
+
+        public void ValidateOriginPosition(Position position)
+        {
+            if (GameBoard.Piece(position) == null)
+            {
+                throw new GameBoardExceptions("There is no piece in this chosen position");
+            }
+            if (CurrentPlayer != GameBoard.Piece(position).Color)
+            {
+                throw new GameBoardExceptions("The piece in this position is not yours!");
+            }
+            if (!GameBoard.Piece(position).PossibleMovementsExists())
+            {
+                throw new GameBoardExceptions("There is no possible movements for the piece in that position");
+             }
+        }
+
+        public void ValidateDestinyPosition(Position origin, Position destiny)
+        {
+            if (!GameBoard.Piece(origin).CanMoveTo(destiny))
+            {
+                throw new GameBoardExceptions("Invalid destiny position");
+            }
         }
 
         public void FillGameBoard()
