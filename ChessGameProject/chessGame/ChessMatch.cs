@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Security.Cryptography.X509Certificates;
 using System.Text.RegularExpressions;
 using ChessGameProject.gameBoard;
 
@@ -12,19 +13,21 @@ namespace ChessGameProject.chessGame
         public bool MatchEnded { get; private set; }
         private HashSet<Piece> Pieces;
         private HashSet<Piece> Captured;
+        public bool IsInCheck { get; private set; }
 
         public ChessMatch()
         {
             GameBoard = new GameBoard(8, 8);
             Turn = 1;
             MatchEnded = false;
+            IsInCheck = false;
             CurrentPlayer = Color.White;
             Pieces = new HashSet<Piece>();
             Captured = new HashSet<Piece>();
             FillGameBoard();
         }
 
-        public void DoMovement(Position origin, Position destiny)
+        public Piece DoMovement(Position origin, Position destiny)
         {
             Piece piece = GameBoard.RemovePiece(origin);
             piece.IncreaseNumberOfMovements();
@@ -34,6 +37,20 @@ namespace ChessGameProject.chessGame
             {
                 Captured.Add(captured);
             }
+            return captured;
+        }
+
+        public void UndoMovement(Position origin, Position destiny, Piece captured)
+        {
+            Piece piece = GameBoard.RemovePiece(destiny);
+            piece.DecreaseNumberOfMovements();
+
+            if (captured != null)
+            {
+                GameBoard.PutPiece(captured, destiny);
+                Captured.Remove(captured);
+            }
+            GameBoard.PutPiece(piece, origin);
         }
 
         private void ChangePlayer()
@@ -49,7 +66,23 @@ namespace ChessGameProject.chessGame
         }
         public void PerformMovement(Position origin, Position destiny)
         {
-            DoMovement(origin, destiny);
+            Piece captured = DoMovement(origin, destiny);
+
+            if (IsInCheckMate(CurrentPlayer))
+            {
+                UndoMovement(origin, destiny, captured);
+                throw new GameBoardExceptions("You can't put yourself in check");
+            }
+
+            if (IsInCheckMate(Adversary(CurrentPlayer)))
+            {
+                IsInCheck = true;
+            }
+            else
+            {
+                IsInCheck = false;
+            }
+
             Turn++;
             ChangePlayer();
         }
@@ -101,8 +134,52 @@ namespace ChessGameProject.chessGame
                     aux.Add(p);
                 }
             }
-            aux.ExceptWith(CapturedPieces(color));
+            aux.ExceptWith(CapturedPieces(color)); 
             return aux;
+        }
+
+        private Color Adversary(Color color)
+        {
+            if (color == Color.White)
+            {
+                return Color.Black;
+            }
+            else
+            {
+                return Color.White;
+            }
+        }
+
+        private Piece GetKing(Color color)
+        {
+            foreach (Piece piece in PiecesInPlay(color))
+            {
+                if (piece is King)
+                {
+                    return piece;
+                }
+            }
+            return null;
+        }
+
+        public bool IsInCheckMate(Color color)
+        {
+            Piece king = GetKing(color);
+            if (king == null)
+            {
+                throw new GameBoardExceptions("There is no king of color "+ color + " on the game board");
+            }
+            foreach (Piece piece in PiecesInPlay(Adversary(color)))
+            {
+                bool[,] matrix = piece.PossibleMovements();
+                if (matrix[king.Position.Row, king.Position.Column])
+                {
+                    // an adversary piece can take the king, therefore
+                    // is in checkmate
+                    return true;
+                }
+            }
+            return false;
         }
 
         public void PlaceNewPiece(char column, int row, Piece piece)

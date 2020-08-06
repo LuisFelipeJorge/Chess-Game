@@ -21,6 +21,11 @@ namespace ChessGameProject.gameBoard
             NumberOfMovements += 1;
         }
 
+        public void DecreaseNumberOfMovements()
+        {
+            NumberOfMovements -= 1;
+        }
+
         public abstract bool[,] PossibleMovements();
 
         public bool PossibleMovementsExists()
