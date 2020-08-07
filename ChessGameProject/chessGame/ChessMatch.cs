@@ -244,6 +244,13 @@ namespace ChessGameProject.chessGame
             PlaceNewPiece('f', 1, new Bishop(GameBoard, Color.White));
             PlaceNewPiece('c', 8, new Bishop(GameBoard, Color.Black));
             PlaceNewPiece('f', 8, new Bishop(GameBoard, Color.Black));
+
+            // Knight
+            PlaceNewPiece('b', 1, new Knight(GameBoard, Color.White));
+            PlaceNewPiece('g', 1, new Knight(GameBoard, Color.White));
+            PlaceNewPiece('b', 8, new Knight(GameBoard, Color.Black));
+            PlaceNewPiece('g', 8, new Knight(GameBoard, Color.Black));
+
         }
     }
 }

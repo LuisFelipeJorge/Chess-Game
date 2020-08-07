@@ -1,16 +1,18 @@
-﻿using ChessGameProject.gameBoard;
+﻿
+using ChessGameProject.gameBoard;
 
 namespace ChessGameProject.chessGame
 {
-    class King : Piece
+    class Knight : Piece
     {
-        public King(GameBoard gameboard, Color color) : base(gameboard, color)
+
+        public Knight(GameBoard gameboard, Color color) : base(gameboard, color)
         {
         }
 
         public override string ToString()
         {
-            return "K";
+            return "k";
         }
 
         private bool CanMove(Position position)
@@ -26,50 +28,57 @@ namespace ChessGameProject.chessGame
 
             Position position = new Position(0, 0);
 
-            // North
-            position.DefinePosition(Position.Row - 1, Position.Column);
+            // --
+            // |
+            position.DefinePosition(Position.Row - 2, Position.Column + 1);
             if ((GameBoard.IsPositionValid(position)) && (CanMove(position)))
             {
                 matrix[position.Row, position.Column] = true;
             }
-            // northeast
-            position.DefinePosition(Position.Row - 1, Position.Column + 1);
+
+            // --
+            //  |
+            position.DefinePosition(Position.Row - 2, Position.Column - 1);
             if ((GameBoard.IsPositionValid(position)) && (CanMove(position)))
             {
                 matrix[position.Row, position.Column] = true;
             }
-            // Right
-            position.DefinePosition(Position.Row, Position.Column + 1);
+            // __|
+            position.DefinePosition(Position.Row - 1, Position.Column + 2);
             if ((GameBoard.IsPositionValid(position)) && (CanMove(position)))
             {
                 matrix[position.Row, position.Column] = true;
             }
-            // Southeast
-            position.DefinePosition(Position.Row + 1, Position.Column + 1);
+            // __
+            //   |
+            position.DefinePosition(Position.Row + 1, Position.Column + 2);
             if ((GameBoard.IsPositionValid(position)) && (CanMove(position)))
             {
                 matrix[position.Row, position.Column] = true;
             }
-            // South
-            position.DefinePosition(Position.Row + 1, Position.Column);
+            // |
+            //  --
+            position.DefinePosition(Position.Row + 2, Position.Column + 1);
             if ((GameBoard.IsPositionValid(position)) && (CanMove(position)))
             {
                 matrix[position.Row, position.Column] = true;
             }
-            // South-west
-            position.DefinePosition(Position.Row + 1, Position.Column - 1);
+            //   |
+            // --
+            position.DefinePosition(Position.Row + 2, Position.Column - 1);
             if ((GameBoard.IsPositionValid(position)) && (CanMove(position)))
             {
                 matrix[position.Row, position.Column] = true;
             }
-            // Left
-            position.DefinePosition(Position.Row, Position.Column - 1);
+            // |__
+            position.DefinePosition(Position.Row - 1, Position.Column - 2);
             if ((GameBoard.IsPositionValid(position)) && (CanMove(position)))
             {
                 matrix[position.Row, position.Column] = true;
             }
-            // Northwest 
-            position.DefinePosition(Position.Row - 1, Position.Column - 1);
+            //  __
+            // |
+            position.DefinePosition(Position.Row + 1, Position.Column - 2);
             if ((GameBoard.IsPositionValid(position)) && (CanMove(position)))
             {
                 matrix[position.Row, position.Column] = true;
