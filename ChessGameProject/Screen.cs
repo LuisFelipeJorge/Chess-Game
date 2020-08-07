@@ -114,11 +114,20 @@ namespace ChessGameProject
             PrintCapturedPieces(match);
             Console.WriteLine();
             Console.WriteLine("Turn: " + match.Turn);
-            Console.WriteLine("Waiting for movement: " + match.CurrentPlayer);
-            if (match.IsInCheck)
+
+            if (!match.MatchEnded)
             {
-                Console.WriteLine("CHECK!!");
+                Console.WriteLine("Waiting for movement: " + match.CurrentPlayer);
+                if (match.InCheck)
+                {
+                    Console.WriteLine("CHECK!!");
+                }
             }
+            else
+            {
+                Console.WriteLine("CHECKMATE!!!!");
+                Console.WriteLine("WINNER: "+ match.CurrentPlayer);
+            }            
         }
     }
 }

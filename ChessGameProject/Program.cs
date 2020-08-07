@@ -44,6 +44,9 @@ namespace ChessGameProject
                         Console.ReadLine();
                     }
                 }
+                Console.Clear();
+                Console.WriteLine(match.MatchEnded);
+                Screen.PrintMacth(match);
             }
             catch (GameBoardExceptions e)
             {

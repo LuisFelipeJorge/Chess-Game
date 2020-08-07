@@ -13,14 +13,14 @@ namespace ChessGameProject.chessGame
         public bool MatchEnded { get; private set; }
         private HashSet<Piece> Pieces;
         private HashSet<Piece> Captured;
-        public bool IsInCheck { get; private set; }
+        public bool InCheck { get; private set; }
 
         public ChessMatch()
         {
             GameBoard = new GameBoard(8, 8);
             Turn = 1;
             MatchEnded = false;
-            IsInCheck = false;
+            InCheck = false;
             CurrentPlayer = Color.White;
             Pieces = new HashSet<Piece>();
             Captured = new HashSet<Piece>();
@@ -68,23 +68,62 @@ namespace ChessGameProject.chessGame
         {
             Piece captured = DoMovement(origin, destiny);
 
-            if (IsInCheckMate(CurrentPlayer))
+            if (IsInCheck(CurrentPlayer))
             {
                 UndoMovement(origin, destiny, captured);
                 throw new GameBoardExceptions("You can't put yourself in check");
             }
 
-            if (IsInCheckMate(Adversary(CurrentPlayer)))
+            if (IsInCheck(Adversary(CurrentPlayer)))
             {
-                IsInCheck = true;
+                InCheck = true;
             }
             else
             {
-                IsInCheck = false;
+                InCheck = false;
             }
 
-            Turn++;
-            ChangePlayer();
+            if (TestCheckMate(Adversary(CurrentPlayer)))
+            {
+                MatchEnded = true;
+            }
+            else
+            {
+                Turn++;
+                ChangePlayer();
+            }            
+        }
+
+        public bool TestCheckMate(Color color)
+        {
+            if (!IsInCheck(color))
+            {
+                return false;
+            }
+            // Analyze all possible movements for each piece to see if there is a movement that does not result in a Check
+            foreach (Piece piece in PiecesInPlay(color))
+            {
+                bool[,] matrix = piece.PossibleMovements();
+                for (int i = 0; i < GameBoard.NumberOfRows; i++)
+                {
+                    for (int j = 0; j < GameBoard.NumberOfColumns; j++)
+                    {
+                        if (matrix[i,j])
+                        {
+                            Position origin = piece.Position;
+                            Position destiny = new Position(i, j);
+                            Piece captured = DoMovement(origin, destiny);
+                            bool testCheck = IsInCheck(color);
+                            UndoMovement(origin, destiny, captured);
+                            if (!testCheck)
+                            {// there are still possible moves
+                                return false;
+                            }
+                        }                        
+                    }
+                }
+            }
+            return true;
         }
 
         public void ValidateOriginPosition(Position position)
@@ -105,7 +144,7 @@ namespace ChessGameProject.chessGame
 
         public void ValidateDestinyPosition(Position origin, Position destiny)
         {
-            if (!GameBoard.Piece(origin).CanMoveTo(destiny))
+            if (!GameBoard.Piece(origin).PossibleMovement(destiny))
             {
                 throw new GameBoardExceptions("Invalid destiny position");
             }
@@ -162,7 +201,7 @@ namespace ChessGameProject.chessGame
             return null;
         }
 
-        public bool IsInCheckMate(Color color)
+        public bool IsInCheck(Color color)
         {
             Piece king = GetKing(color);
             if (king == null)
@@ -190,7 +229,7 @@ namespace ChessGameProject.chessGame
 
         public void FillGameBoard()
         {
-            PlaceNewPiece('c', 1, new Rook(GameBoard, Color.White));
+            /*PlaceNewPiece('c', 1, new Rook(GameBoard, Color.White));
             PlaceNewPiece('c', 2, new Rook(GameBoard, Color.White));
             PlaceNewPiece('d', 2, new Rook(GameBoard, Color.White));
             PlaceNewPiece('e', 2, new Rook(GameBoard, Color.White));
@@ -202,7 +241,14 @@ namespace ChessGameProject.chessGame
             PlaceNewPiece('d', 7, new Rook(GameBoard, Color.Black));
             PlaceNewPiece('e', 7, new Rook(GameBoard, Color.Black));
             PlaceNewPiece('e', 8, new Rook(GameBoard, Color.Black));
-            PlaceNewPiece('d', 8, new King(GameBoard, Color.Black));
+            PlaceNewPiece('d', 8, new King(GameBoard, Color.Black));*/
+
+            PlaceNewPiece('c', 1, new Rook(GameBoard, Color.White));
+            PlaceNewPiece('d', 1, new King(GameBoard, Color.White));
+            PlaceNewPiece('h', 7, new Rook(GameBoard, Color.White));
+
+            PlaceNewPiece('a', 8, new King(GameBoard, Color.Black));
+            PlaceNewPiece('b', 8, new Rook(GameBoard, Color.Black));
 
         }
     }
