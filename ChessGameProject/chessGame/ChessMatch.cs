@@ -229,27 +229,21 @@ namespace ChessGameProject.chessGame
 
         public void FillGameBoard()
         {
-            /*PlaceNewPiece('c', 1, new Rook(GameBoard, Color.White));
-            PlaceNewPiece('c', 2, new Rook(GameBoard, Color.White));
-            PlaceNewPiece('d', 2, new Rook(GameBoard, Color.White));
-            PlaceNewPiece('e', 2, new Rook(GameBoard, Color.White));
-            PlaceNewPiece('e', 1, new Rook(GameBoard, Color.White));
-            PlaceNewPiece('d', 1, new King(GameBoard, Color.White));
+            // King
+            PlaceNewPiece('e', 1, new King(GameBoard, Color.White));
+            PlaceNewPiece('e', 8, new King(GameBoard, Color.Black));
 
-            PlaceNewPiece('c', 7, new Rook(GameBoard, Color.Black));
-            PlaceNewPiece('c', 8, new Rook(GameBoard, Color.Black));
-            PlaceNewPiece('d', 7, new Rook(GameBoard, Color.Black));
-            PlaceNewPiece('e', 7, new Rook(GameBoard, Color.Black));
-            PlaceNewPiece('e', 8, new Rook(GameBoard, Color.Black));
-            PlaceNewPiece('d', 8, new King(GameBoard, Color.Black));*/
+            // Rook
+            PlaceNewPiece('a', 1, new Rook(GameBoard, Color.White));
+            PlaceNewPiece('h', 1, new Rook(GameBoard, Color.White));
+            PlaceNewPiece('a', 8, new Rook(GameBoard, Color.Black));
+            PlaceNewPiece('h', 8, new Rook(GameBoard, Color.Black));
 
-            PlaceNewPiece('c', 1, new Rook(GameBoard, Color.White));
-            PlaceNewPiece('d', 1, new King(GameBoard, Color.White));
-            PlaceNewPiece('h', 7, new Rook(GameBoard, Color.White));
-
-            PlaceNewPiece('a', 8, new King(GameBoard, Color.Black));
-            PlaceNewPiece('b', 8, new Rook(GameBoard, Color.Black));
-
+            // Bishop
+            PlaceNewPiece('c', 1, new Bishop(GameBoard, Color.White));
+            PlaceNewPiece('f', 1, new Bishop(GameBoard, Color.White));
+            PlaceNewPiece('c', 8, new Bishop(GameBoard, Color.Black));
+            PlaceNewPiece('f', 8, new Bishop(GameBoard, Color.Black));
         }
     }
 }
