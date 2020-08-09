@@ -255,6 +255,25 @@ namespace ChessGameProject.chessGame
             PlaceNewPiece('b', 8, new Knight(GameBoard, Color.Black));
             PlaceNewPiece('g', 8, new Knight(GameBoard, Color.Black));
 
+            // Pawn
+            PlaceNewPiece('a', 2, new Pawn(GameBoard, Color.White));
+            PlaceNewPiece('b', 2, new Pawn(GameBoard, Color.White));
+            PlaceNewPiece('c', 2, new Pawn(GameBoard, Color.White));
+            PlaceNewPiece('d', 2, new Pawn(GameBoard, Color.White));
+            PlaceNewPiece('e', 2, new Pawn(GameBoard, Color.White));
+            PlaceNewPiece('f', 2, new Pawn(GameBoard, Color.White));
+            PlaceNewPiece('g', 2, new Pawn(GameBoard, Color.White));
+            PlaceNewPiece('h', 2, new Pawn(GameBoard, Color.White));
+            PlaceNewPiece('a', 7, new Pawn(GameBoard, Color.Black));
+            PlaceNewPiece('b', 7, new Pawn(GameBoard, Color.Black));
+            PlaceNewPiece('c', 7, new Pawn(GameBoard, Color.Black));
+            PlaceNewPiece('d', 7, new Pawn(GameBoard, Color.Black));
+            PlaceNewPiece('e', 7, new Pawn(GameBoard, Color.Black));
+            PlaceNewPiece('f', 7, new Pawn(GameBoard, Color.Black));
+            PlaceNewPiece('g', 7, new Pawn(GameBoard, Color.Black));
+            PlaceNewPiece('h', 7, new Pawn(GameBoard, Color.Black));
+
+
         }
     }
 }
