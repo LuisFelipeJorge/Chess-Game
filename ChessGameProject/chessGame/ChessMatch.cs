@@ -233,6 +233,10 @@ namespace ChessGameProject.chessGame
             PlaceNewPiece('e', 1, new King(GameBoard, Color.White));
             PlaceNewPiece('e', 8, new King(GameBoard, Color.Black));
 
+            // Queen
+            PlaceNewPiece('d', 1, new Queen(GameBoard, Color.White));
+            PlaceNewPiece('d', 8, new Queen(GameBoard, Color.Black));
+
             // Rook
             PlaceNewPiece('a', 1, new Rook(GameBoard, Color.White));
             PlaceNewPiece('h', 1, new Rook(GameBoard, Color.White));
