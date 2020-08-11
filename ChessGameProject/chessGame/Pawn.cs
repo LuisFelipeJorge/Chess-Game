@@ -5,8 +5,10 @@ namespace ChessGameProject.chessGame
 {
     class Pawn : Piece
     {
-        public Pawn(GameBoard gameBoard, Color color):base(gameBoard, color)
+        private ChessMatch Match;
+        public Pawn(GameBoard gameBoard, Color color, ChessMatch match) : base(gameBoard, color)
         {
+            Match = match;
         }
 
         public override string ToString()
@@ -34,7 +36,7 @@ namespace ChessGameProject.chessGame
             // White pawns just move up
             if (Color == Color.White)
             {
-                position.DefinePosition(Position.Row-1, Position.Column);
+                position.DefinePosition(Position.Row - 1, Position.Column);
                 if (GameBoard.IsPositionValid(position) && IsPositionFree(position))
                 {
                     matrix[position.Row, position.Column] = true;
@@ -56,9 +58,23 @@ namespace ChessGameProject.chessGame
                 {
                     matrix[position.Row, position.Column] = true;
                 }
+                // Special Movement En Passant
+                if (Position.Row == 3)
+                {
+                    Position left = new Position(Position.Row, Position.Column - 1);
+                    if (GameBoard.IsPositionValid(left) && ThereIsOpponent(left) && GameBoard.Piece(left) == Match.VulnerableToEnPassant)
+                    {
+                        matrix[left.Row - 1, left.Column] = true;
+                    }
+                    Position right = new Position(Position.Row, Position.Column + 1);
+                    if (GameBoard.IsPositionValid(right) && ThereIsOpponent(right) && GameBoard.Piece(right) == Match.VulnerableToEnPassant)
+                    {
+                        matrix[right.Row - 1, right.Column] = true;
+                    }
+                }
             }
             // Black pawns just move down
-            else 
+            else
             {
                 position.DefinePosition(Position.Row + 1, Position.Column);
                 if (GameBoard.IsPositionValid(position) && IsPositionFree(position))
@@ -81,6 +97,20 @@ namespace ChessGameProject.chessGame
                 if (GameBoard.IsPositionValid(position) && ThereIsOpponent(position))
                 {
                     matrix[position.Row, position.Column] = true;
+                }
+                // Special Movement En Passant
+                if (Position.Row == 4)
+                {
+                    Position left = new Position(Position.Row, Position.Column - 1);
+                    if (GameBoard.IsPositionValid(left) && ThereIsOpponent(left) && GameBoard.Piece(left) == Match.VulnerableToEnPassant)
+                    {
+                        matrix[left.Row + 1, left.Column] = true;
+                    }
+                    Position right = new Position(Position.Row, Position.Column + 1);
+                    if (GameBoard.IsPositionValid(right) && ThereIsOpponent(right) && GameBoard.Piece(right) == Match.VulnerableToEnPassant)
+                    {
+                        matrix[right.Row + 1, right.Column] = true;
+                    }
                 }
             }
             return matrix;
