@@ -37,6 +37,26 @@ namespace ChessGameProject.chessGame
             {
                 Captured.Add(captured);
             }
+
+            // Special Movement Castling
+            // Short Castling
+            if (piece is King && destiny.Column == origin.Column + 2)
+            {
+                Position rookOrigin = new Position(origin.Row, origin.Column + 3);
+                Position rookDestiny = new Position(origin.Row, origin.Column + 1);
+                Piece rook = GameBoard.RemovePiece(rookOrigin);
+                rook.IncreaseNumberOfMovements();
+                GameBoard.PutPiece(rook, rookDestiny);
+            }
+            // Long Castling
+            if (piece is King && destiny.Column == origin.Column - 2)
+            {
+                Position rookOrigin = new Position(origin.Row, origin.Column - 4);
+                Position rookDestiny = new Position(origin.Row, origin.Column - 1);
+                Piece rook = GameBoard.RemovePiece(rookOrigin);
+                rook.IncreaseNumberOfMovements();
+                GameBoard.PutPiece(rook, rookDestiny);
+            }
             return captured;
         }
 
@@ -51,6 +71,26 @@ namespace ChessGameProject.chessGame
                 Captured.Remove(captured);
             }
             GameBoard.PutPiece(piece, origin);
+
+            // Special Movement Castling
+            // Short Castling
+            if (piece is King && destiny.Column == origin.Column + 2)
+            {
+                Position rookOrigin = new Position(origin.Row, origin.Column + 3);
+                Position rookDestiny = new Position(origin.Row, origin.Column + 1);
+                Piece rook = GameBoard.RemovePiece(rookDestiny);
+                rook.DecreaseNumberOfMovements();
+                GameBoard.PutPiece(rook, rookOrigin);
+            }
+            // Long Castling
+            if (piece is King && destiny.Column == origin.Column - 2)
+            {
+                Position rookOrigin = new Position(origin.Row, origin.Column - 4);
+                Position rookDestiny = new Position(origin.Row, origin.Column - 1);
+                Piece rook = GameBoard.RemovePiece(rookDestiny);
+                rook.DecreaseNumberOfMovements();
+                GameBoard.PutPiece(rook, rookOrigin);
+            }
         }
 
         private void ChangePlayer()
@@ -91,7 +131,7 @@ namespace ChessGameProject.chessGame
             {
                 Turn++;
                 ChangePlayer();
-            }            
+            }
         }
 
         public bool TestCheckMate(Color color)
@@ -108,7 +148,7 @@ namespace ChessGameProject.chessGame
                 {
                     for (int j = 0; j < GameBoard.NumberOfColumns; j++)
                     {
-                        if (matrix[i,j])
+                        if (matrix[i, j])
                         {
                             Position origin = piece.Position;
                             Position destiny = new Position(i, j);
@@ -119,7 +159,7 @@ namespace ChessGameProject.chessGame
                             {// there are still possible moves
                                 return false;
                             }
-                        }                        
+                        }
                     }
                 }
             }
@@ -139,7 +179,7 @@ namespace ChessGameProject.chessGame
             if (!GameBoard.Piece(position).PossibleMovementsExists())
             {
                 throw new GameBoardExceptions("There is no possible movements for the piece in that position");
-             }
+            }
         }
 
         public void ValidateDestinyPosition(Position origin, Position destiny)
@@ -173,7 +213,7 @@ namespace ChessGameProject.chessGame
                     aux.Add(p);
                 }
             }
-            aux.ExceptWith(CapturedPieces(color)); 
+            aux.ExceptWith(CapturedPieces(color));
             return aux;
         }
 
@@ -206,7 +246,7 @@ namespace ChessGameProject.chessGame
             Piece king = GetKing(color);
             if (king == null)
             {
-                throw new GameBoardExceptions("There is no king of color "+ color + " on the game board");
+                throw new GameBoardExceptions("There is no king of color " + color + " on the game board");
             }
             foreach (Piece piece in PiecesInPlay(Adversary(color)))
             {
@@ -230,8 +270,8 @@ namespace ChessGameProject.chessGame
         public void FillGameBoard()
         {
             // King
-            PlaceNewPiece('e', 1, new King(GameBoard, Color.White));
-            PlaceNewPiece('e', 8, new King(GameBoard, Color.Black));
+            PlaceNewPiece('e', 1, new King(GameBoard, Color.White, this));
+            PlaceNewPiece('e', 8, new King(GameBoard, Color.Black, this));
 
             // Queen
             PlaceNewPiece('d', 1, new Queen(GameBoard, Color.White));
