@@ -148,6 +148,17 @@ namespace ChessGameProject.chessGame
                 throw new GameBoardExceptions("You can't put yourself in check");
             }
 
+            // Special Movement Promotion
+            Piece piece = GameBoard.Piece(destiny);
+            if ((piece is Pawn) && ((piece.Color == Color.White && destiny.Row == 0) || (piece.Color == Color.Black && destiny.Row == 7)))
+            {
+                piece = GameBoard.RemovePiece(destiny);
+                Pieces.Remove(piece);
+                Queen queen = new Queen(GameBoard, piece.Color);
+                GameBoard.PutPiece(queen, destiny);
+                Pieces.Add(queen);
+            }
+
             if (IsInCheck(Adversary(CurrentPlayer)))
             {
                 InCheck = true;
@@ -167,7 +178,6 @@ namespace ChessGameProject.chessGame
                 ChangePlayer();
             }
 
-            Piece piece = GameBoard.Piece(destiny);
             // Special Movement En Passant
             if ((piece is Pawn) && (destiny.Row == origin.Row - 2 || destiny.Row == origin.Row + 2))
             {
